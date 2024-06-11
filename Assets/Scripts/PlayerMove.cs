@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    CharacterController cController;
 
     [SerializeField] float playerSpeed;
     [SerializeField] float playerRunSpeed;
-    [SerializeField] GameObject player;
+    [SerializeField] Rigidbody player;
     [SerializeField] GameObject wallCheck; 
     [SerializeField] float runTime;
 
@@ -17,26 +16,27 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        cController = GetComponent<CharacterController>();
+       
     }
 
     void Update()
     {
-        playerMove();
-        checkGravity();
-        climbWall();
+        //climbWall();
     }
 
-    private void checkGravity()
+    private void FixedUpdate()
     {
-        cController.Move(Physics.gravity * Time.deltaTime);
+        playerMove();
     }
 
     private void playerMove()
     {
-        moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        moveDir.x = Input.GetAxis("Horizontal");
+        moveDir.z = Input.GetAxis("Vertical");
 
-        cController.Move(transform.rotation * moveDir * playerSpeed * Time.deltaTime);
+        moveDir = transform.TransformDirection(moveDir);
+
+        player.MovePosition(this.gameObject.transform.position + moveDir * playerSpeed * Time.deltaTime);
     }
 
     private void climbWall()

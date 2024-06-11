@@ -34,7 +34,11 @@ public class PlayerCam : MonoBehaviour
     void Update()
     {
         cameraRotation();
-        cameraFollow();
+    }
+
+    private void LateUpdate()
+    {
+        //cameraFollow();
     }
 
     private void cameraRotation()
@@ -57,7 +61,7 @@ public class PlayerCam : MonoBehaviour
 
         RaycastHit hit;
 
-        if(Physics.Linecast(transform.position, finalDir, out hit))
+        if (Physics.Linecast(transform.position, finalDir, out hit))
         {
             finalDistance = Mathf.Clamp(hit.distance, minDistance, maxDistance);
         }
