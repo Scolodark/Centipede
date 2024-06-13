@@ -12,6 +12,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] GameObject wallCheck; 
     [SerializeField] float runTime;
 
+    [SerializeField] AnimationCurve animCurcved;
+    [SerializeField] float time;
+
     Vector3 moveDir;
 
     void Start()
@@ -27,6 +30,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         playerMove();
+        surfaceWalk();
     }
 
     private void playerMove()
@@ -39,19 +43,9 @@ public class PlayerMove : MonoBehaviour
         player.MovePosition(this.gameObject.transform.position + moveDir * playerSpeed * Time.deltaTime);
     }
 
-    private void climbWall()
+    private void surfaceWalk()
     {
-        RaycastHit hit;
-        bool check = false;
-        Quaternion rot = Quaternion.Euler(-90, 0, 0);
+           
         
-        if(Physics.Raycast(wallCheck.transform.position, Vector3.back, out hit, 0.3f, LayerMask.GetMask("Ground")) && check == false)
-        {
-            check = true;
-            transform.rotation = rot;
-            Debug.Log("»Æ¿Œ");
-        }
-
-        Debug.DrawRay(wallCheck.transform.position, Vector3.back * 0.3f, Color.red);
     }
 }
